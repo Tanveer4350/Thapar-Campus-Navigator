@@ -107,6 +107,8 @@ The SRS helped define:
 
 **Outcome:**  
 The software requirements were formally documented.
+link :- https://drive.google.com/file/d/1tnEYdbJFlPBrctr1ZlUNzoqRivZA4VKp/view?usp=sharing
+
 
 ---
 
@@ -128,6 +130,7 @@ The major interactions identified include:
 
 **Outcome:**  
 The primary user interactions and system boundaries were represented through the Use Case Diagram.
+link :- https://drive.google.com/file/d/10qA4zRwyJPMOZRg2aPt_3gPo3ZTJ26w8/view?usp=drive_link
 
 ---
 
