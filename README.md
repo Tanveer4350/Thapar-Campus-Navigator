@@ -135,6 +135,13 @@ link :- https://app.diagrams.net/#G10qA4zRwyJPMOZRg2aPt_3gPo3ZTJ26w8#%7B%22pageI
 
 ---
 
+## Week 6 — Activity Diagram
+
+During Week 5, the **Activity Diagram** for Thapar Wayfinder was designed.
+link :- 
+
+---
+
 # 📊 Current Status
 
 | Component | Status |
@@ -148,9 +155,9 @@ link :- https://app.diagrams.net/#G10qA4zRwyJPMOZRg2aPt_3gPo3ZTJ26w8#%7B%22pageI
 | Initial Campus Map | ✅ Completed |
 | SRS | ✅ Completed |
 | Use Case Diagram | ✅ Completed |
+| Search | ✅ Completed |
 | Custom Campus Map | 🔄 In Progress |
 | Building Data | 🔄 In Progress |
-| Search | ⏳ Upcoming |
 | Faculty Directory | ⏳ Upcoming |
 | Department Directory | ⏳ Upcoming |
 | Navigation | ⏳ Upcoming |
