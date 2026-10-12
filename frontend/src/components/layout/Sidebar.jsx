@@ -1,4 +1,14 @@
-export default function Sidebar() {
+import { campusLocations } from "../../data/locations";
+
+export default function Sidebar({ onLocationSelect }) {
+  const handleQuickSelect = (id) => {
+    if (!onLocationSelect) return;
+    const found = campusLocations.find((loc) => loc.id === id);
+    if (found) {
+      onLocationSelect(found);
+    }
+  };
+
   return (
     <aside className="w-64 h-full bg-white border-r border-gray-200 flex flex-col">
 
@@ -51,24 +61,50 @@ export default function Sidebar() {
 
         <div className="space-y-2">
 
-          <button className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+          <button
+            onClick={() => handleQuickSelect("library")}
+            className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
             <p className="text-sm font-medium text-gray-700">
               📚 Library
             </p>
           </button>
 
-          <button className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+          <button
+            onClick={() => handleQuickSelect("cafeteria")}
+            className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
             <p className="text-sm font-medium text-gray-700">
               🍴 Cafeteria
             </p>
           </button>
 
-          <button className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+          <button
+            onClick={() => handleQuickSelect("administrative-block")}
+            className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
+            <p className="text-sm font-medium text-gray-700">
+              🏛️ Administrative Block
+            </p>
+          </button>
+
+          <button
+            onClick={() => handleQuickSelect("c-block")}
+            className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
+            <p className="text-sm font-medium text-gray-700">
+              🏢 C-Block
+            </p>
+          </button>
+
+          <button
+            onClick={() => handleQuickSelect("medical-centre")}
+            className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-gray-50 transition"
+          >
             <p className="text-sm font-medium text-gray-700">
               🏥 Medical Centre
             </p>
           </button>
-
         </div>
 
       </div>

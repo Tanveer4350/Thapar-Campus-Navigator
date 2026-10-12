@@ -15,11 +15,12 @@ function App() {
 
       <div className="flex h-[calc(100vh-64px)]">
 
-        <Sidebar />
+        <Sidebar onLocationSelect={setSelectedLocation} />
 
-        <main className="flex-1 relative">
+        <main className="flex-1 relative h-full">
           <CampusMap
             selectedLocation={selectedLocation}
+            onLocationSelect={setSelectedLocation}
           />
         </main>
 
