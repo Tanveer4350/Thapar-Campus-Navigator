@@ -5,7 +5,6 @@ import {
   showRouteFromCurrentLocation,
   clearRouteFromMap,
   THAPAR_MAIN_GATE,
-  THAPAR_PG_HOSTEL,
 } from "../../data/routes";
 
 const DEFAULT_MAPBOX_STYLE = "mapbox://styles/sinher/cmsiupar300si01sffmuuanh0";
@@ -230,10 +229,7 @@ export default function CampusMap({ selectedLocation }) {
 
       if (startPointType === "gate") {
         options.startLocation = THAPAR_MAIN_GATE;
-      } else if (startPointType === "pg-hostel") {
-        options.startLocation = THAPAR_PG_HOSTEL;
       }
-
       const result = await showRouteFromCurrentLocation(
         map.current,
         selectedLocation,
