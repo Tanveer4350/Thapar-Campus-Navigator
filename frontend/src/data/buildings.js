@@ -67,7 +67,7 @@ export const campusBuildings = [
     code: "A-H",
     description: "Student residential hostel complex with dining facilities.",
     coordinates: [ 76.364590, 30.351385 ],
-    icon: "⚙️",
+    icon: "🏠",
     color: "#f59e0b",
   },
   {
