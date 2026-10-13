@@ -208,7 +208,9 @@ export default function CampusMap({ selectedLocation }) {
 
       const options = {
         targetAccuracy: 20,
-        timeout: 10000,
+        timeout: 20000,
+        allowFallback: false,
+        maxAcceptedAccuracy: 100,
         onStartDragEnd: async (newCoords) => {
           try {
             const updatedResult = await showRouteFromCurrentLocation(
@@ -288,7 +290,7 @@ export default function CampusMap({ selectedLocation }) {
           {/* Navigation Action Area */}
           {!routeInfo ? (
             <div className="mt-3.5 space-y-2.5">
-              {/* Origin Selection: GPS vs PG Hostel vs Main Gate */}
+              {/* Origin Selection: GPS vs Main Gate */}
               <div className="flex items-center gap-1.5 p-1 bg-gray-100/80 rounded-xl text-xs">
                 <button
                   type="button"
@@ -302,19 +304,6 @@ export default function CampusMap({ selectedLocation }) {
                 >
                   <span>📍</span>
                   <span>My GPS</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setStartPointType("pg-hostel")}
-                  className={`flex-1 py-1.5 px-1.5 rounded-lg font-medium transition cursor-pointer flex items-center justify-center gap-1 ${
-                    startPointType === "pg-hostel"
-                      ? "bg-white text-blue-600 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                  title="Start directly from PG Hostel"
-                >
-                  <span>🏠</span>
-                  <span>PG Hostel</span>
                 </button>
                 <button
                   type="button"

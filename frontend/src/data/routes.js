@@ -128,12 +128,14 @@ export function formatDuration(seconds) {
 /**
  * Accurately get user's current GPS location via the Browser Geolocation API.
  * Uses high-accuracy hardware mode and samples readings until accuracy <= targetAccuracy (or best available within timeout).
- * If permission is denied or unavailable, falls back to Thapar campus entrance coordinates.
+ * Can either fall back to the campus entrance or reject on geolocation failure.
  *
  * @param {Object} options
  * @param {number} [options.targetAccuracy=20] - Acceptable accuracy in meters
  * @param {number} [options.timeout=10000] - Max wait time in ms
  * @param {Array<number>} [options.fallbackCoordinates=THAPAR_MAIN_GATE]
+ * @param {boolean} [options.allowFallback=true] - Use fallback coordinates on geolocation failure
+ * @param {number} [options.maxAcceptedAccuracy=100] - Maximum accepted accuracy when fallback is disabled
  * @returns {Promise<{ coordinates: [number, number], isFallback: boolean, accuracy?: number, error?: string }>}
  */
 export function getUserLocation(options = {}) {
@@ -141,10 +143,16 @@ export function getUserLocation(options = {}) {
     targetAccuracy = 20,
     timeout = 10000,
     fallbackCoordinates = THAPAR_MAIN_GATE,
+    allowFallback = true,
+    maxAcceptedAccuracy = 100,
   } = options;
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
+      if (!allowFallback) {
+        reject(new Error("Location is unavailable. Use a device/browser with location services enabled."));
+        return;
+      }
       console.warn("Geolocation is not supported by this browser. Using campus fallback.");
       return resolve({
         coordinates: fallbackCoordinates,
@@ -163,12 +171,28 @@ export function getUserLocation(options = {}) {
       }
       if (bestPosition) {
         const { longitude, latitude, accuracy } = bestPosition.coords;
+        if (!allowFallback && accuracy > maxAcceptedAccuracy) {
+          reject(
+            new Error(
+              `Your location is only accurate to about ${Math.round(accuracy)} m. Move outdoors and try again.`
+            )
+          );
+          return;
+        }
         resolve({
           coordinates: [longitude, latitude],
           isFallback: false,
           accuracy: Math.round(accuracy),
         });
       } else {
+        if (!allowFallback) {
+          reject(
+            new Error(
+              "Could not get your current location before the request timed out. Try again with location services enabled."
+            )
+          );
+          return;
+        }
         console.warn("Geolocation timed out before receiving a fix. Using campus fallback.");
         resolve({
           coordinates: fallbackCoordinates,
@@ -201,6 +225,16 @@ export function getUserLocation(options = {}) {
         clearTimeout(timer);
         if (watchId !== null) {
           navigator.geolocation.clearWatch(watchId);
+        }
+        if (!allowFallback) {
+          const message =
+            error.code === 1
+              ? "Location permission was denied. Allow location access for this site in your browser settings, then try again."
+              : error.code === 2
+                ? "Your current location is unavailable. Turn on device location services and try again."
+                : "Could not get your current location in time. Try again with location services enabled.";
+          reject(new Error(message));
+          return;
         }
         console.warn(`Geolocation error (${error.code}: ${error.message}). Using campus fallback.`);
         resolve({
