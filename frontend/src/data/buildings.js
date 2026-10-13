@@ -176,7 +176,7 @@ export const campusBuildings = [
     category: "Entrance",
     code: "GT-1",
     description: "Primary main entrance gate to Thapar University campus.",
-    coordinates: [76.3619, 30.3559],
+    coordinates: [ 76.373739, 30.352214 ],
     icon: "🚪",
     color: "#059669",
   },
