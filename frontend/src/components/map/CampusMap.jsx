@@ -8,6 +8,7 @@ import {
 } from "../../data/routes";
 
 const DEFAULT_MAPBOX_STYLE = "mapbox://styles/sinher/cmsiupar300si01sffmuuanh0";
+const FALLBACK_STYLE = "https://demotiles.maplibre.org/style.json";
 
 export default function CampusMap({ selectedLocation }) {
   const mapContainer = useRef(null);
@@ -19,6 +20,8 @@ export default function CampusMap({ selectedLocation }) {
     localStorage.getItem("MAPBOX_TOKEN") ||
     import.meta.env.VITE_MAPBOX_TOKEN ||
     "";
+  const activeStyle = activeToken ? DEFAULT_MAPBOX_STYLE : FALLBACK_STYLE;
+  const isUsingFallbackMap = !activeToken;
 
   // Navigation & Origin state
   const [startPointType, setStartPointType] = useState("gps"); // "gps" | "gate"
@@ -29,7 +32,7 @@ export default function CampusMap({ selectedLocation }) {
 
   // Add 3D building extrusions on Mapbox vector styles
   const add3DBuildingExtrusions = useCallback((mapInstance) => {
-    if (!mapInstance || !mapInstance.isStyleLoaded()) return;
+    if (!mapInstance || !mapInstance.isStyleLoaded() || isUsingFallbackMap) return;
     if (mapInstance.getLayer("3d-buildings")) return;
 
     try {
@@ -109,7 +112,7 @@ export default function CampusMap({ selectedLocation }) {
     try {
       const newMap = new mapboxgl.Map({
         container: mapContainer.current,
-        style: DEFAULT_MAPBOX_STYLE,
+        style: activeStyle,
         center: [76.3647, 30.352],
         zoom: 16,
         pitch: 55,
@@ -144,7 +147,7 @@ export default function CampusMap({ selectedLocation }) {
     } catch (err) {
       console.error("Failed to construct map:", err);
     }
-  }, [activeToken, add3DBuildingExtrusions]);
+  }, [activeStyle, activeToken, add3DBuildingExtrusions]);
 
   // Mount map on initial render
   useEffect(() => {
@@ -265,6 +268,12 @@ export default function CampusMap({ selectedLocation }) {
 
   return (
     <div className="relative w-full h-full overflow-hidden">
+      {isUsingFallbackMap && (
+        <div className="absolute left-4 top-4 z-30 max-w-md rounded-xl border border-amber-200 bg-amber-50/95 px-3 py-2 text-xs text-amber-900 shadow-sm backdrop-blur-sm">
+          Mapbox token is not configured. Showing a public fallback map. Add VITE_MAPBOX_TOKEN in frontend/.env to enable the campus map styling.
+        </div>
+      )}
+
       {/* Mapbox Canvas Container */}
       <div ref={mapContainer} className="absolute inset-0 w-full h-full" />
 
