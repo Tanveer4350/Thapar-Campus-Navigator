@@ -3,7 +3,11 @@ import { campusLocations } from "../../data/locations";
 
 const buildingCategories = new Set(["Library", "Lecture Hall", "Auditorium", "Workshop"]);
 
-export default function Sidebar({ onLocationSelect }) {
+export default function Sidebar({
+  onLocationSelect,
+  onFacultySelect,
+  onHomeSelect,
+}) {
   const [expandedSection, setExpandedSection] = useState(null);
 
   const handleLocationSelect = (location) => {
@@ -55,6 +59,7 @@ export default function Sidebar({ onLocationSelect }) {
           <nav className="space-y-1">
             <button
               type="button"
+              onClick={onHomeSelect}
               className="flex w-full items-center gap-3 rounded-lg bg-blue-50 px-3 py-3 text-sm font-medium text-blue-600"
             >
               <span className="text-lg">🗺️</span>
@@ -95,6 +100,7 @@ export default function Sidebar({ onLocationSelect }) {
 
             <button
               type="button"
+              onClick={onFacultySelect}
               className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm text-gray-600 transition hover:bg-gray-50"
             >
               <span className="text-lg">👨‍🏫</span>

@@ -4,7 +4,7 @@ import mapboxgl from "mapbox-gl";
  * Thapar Institute of Engineering & Technology (TIET) Reference Coordinates
  */
 export const THAPAR_CAMPUS_CENTER = [76.3647, 30.352];
-export const THAPAR_MAIN_GATE = [76.3619, 30.3559];
+export const THAPAR_MAIN_GATE = [76.373739, 30.352214];
 export const THAPAR_PG_HOSTEL = [76.3715, 30.3578];
 export const THAPAR_HOSTEL_K = [76.3705, 30.3575];
 
@@ -17,7 +17,7 @@ export const predefinedCampusRoutes = [
     name: "Main Gate to Central Library",
     from: "Main Gate",
     to: "Thapar Central Library",
-    startCoordinates: [76.3619, 30.3559],
+    startCoordinates: [76.373739, 30.352214],
     destinationCoordinates: [76.369948, 30.354418],
     description: "Primary pathway from Gate 1 to Central Library through academic quad.",
   },
