@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/layout/Navbar";
 import Sidebar from "./components/layout/Sidebar";
 import CampusMap from "./components/map/CampusMap";
@@ -8,6 +8,13 @@ function App() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [facultyDirectoryOpen, setFacultyDirectoryOpen] = useState(false);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem("campus-navigator.dark-mode") === "true"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("campus-navigator.dark-mode", String(darkMode));
+  }, [darkMode]);
 
   const handleFacultySelect = (faculty = null) => {
     setSelectedFaculty(faculty);
@@ -21,7 +28,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-gray-100">
+    <div className={`h-screen w-screen overflow-hidden bg-gray-100${darkMode ? " dark-theme" : ""}`}>
 
       <Navbar
         onLocationSelect={setSelectedLocation}
@@ -34,6 +41,8 @@ function App() {
           onLocationSelect={setSelectedLocation}
           onFacultySelect={() => handleFacultySelect()}
           onHomeSelect={handleHomeSelect}
+          darkMode={darkMode}
+          onDarkModeChange={setDarkMode}
         />
 
         <main className="flex-1 relative h-full">

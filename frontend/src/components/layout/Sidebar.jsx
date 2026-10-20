@@ -7,8 +7,36 @@ export default function Sidebar({
   onLocationSelect,
   onFacultySelect,
   onHomeSelect,
+  darkMode,
+  onDarkModeChange,
 }) {
   const [expandedSection, setExpandedSection] = useState(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const renderSetting = (title, description, enabled, onChange) => (
+    <div className="flex items-center justify-between gap-4 py-4">
+      <div>
+        <p className="text-sm font-medium text-gray-900">{title}</p>
+        <p className="mt-1 text-xs text-gray-500">{description}</p>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={enabled}
+        aria-label={title}
+        onClick={() => onChange(!enabled)}
+        className={`relative h-6 w-11 shrink-0 rounded-full transition ${
+          enabled ? "bg-blue-600" : "bg-gray-300"
+        }`}
+      >
+        <span
+          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition ${
+            enabled ? "left-5" : "left-0.5"
+          }`}
+        />
+      </button>
+    </div>
+  );
 
   const handleLocationSelect = (location) => {
     onLocationSelect?.(location);
@@ -146,12 +174,51 @@ export default function Sidebar({
       <div className="border-t border-gray-100 p-5">
         <button
           type="button"
+          onClick={() => setSettingsOpen(true)}
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-600 transition hover:bg-gray-50"
         >
           ⚙️
           Settings
         </button>
       </div>
+
+      {settingsOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setSettingsOpen(false);
+          }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="settings-title"
+            className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+          >
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 id="settings-title" className="text-lg font-semibold text-gray-900">
+                  Settings
+                </h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  Personalize your campus map.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSettingsOpen(false)}
+                aria-label="Close settings"
+                className="rounded-lg px-2 py-1 text-gray-500 hover:bg-gray-100"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="mt-4 divide-y divide-gray-100">
+              {renderSetting("Dark mode", "Use a darker interface.", darkMode, onDarkModeChange)}
+            </div>
+          </section>
+        </div>
+      )}
     </aside>
   );
 }
