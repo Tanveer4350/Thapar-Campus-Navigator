@@ -158,9 +158,9 @@ link :-
 | Search | ✅ Completed |
 | Custom Campus Map | 🔄 In Progress |
 | Building Data | 🔄 In Progress |
-| Faculty Directory | ⏳ Upcoming |
+| Faculty Directory | 🔄 In Progress |
 | Department Directory | ⏳ Upcoming |
-| Navigation | ⏳ Upcoming |
+| Navigation | ✅ Completed |
 | Backend | ⏳ Upcoming |
 | Database | ⏳ Upcoming |
 | Deployment | ⏳ Upcoming |
