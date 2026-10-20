@@ -2,7 +2,7 @@
 
 ### Interactive 3D Campus Navigation & Information Platform
 
-> **Find Places. Find People. Find Your Way.**
+> **Find Places. Find Your Way.**
 
 Thapar Wayfinder is a web-based campus navigation project being developed to help students and visitors locate buildings, departments, classrooms, campus facilities, and faculty cabins within the Thapar campus.
 
