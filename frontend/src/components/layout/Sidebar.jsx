@@ -11,7 +11,10 @@ export default function Sidebar({
   onDarkModeChange,
 }) {
   const [expandedSection, setExpandedSection] = useState(null);
+  const [activeTab, setActiveTab] = useState("map");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const activeTabClass = "bg-blue-50 text-blue-600";
+  const inactiveTabClass = "text-gray-600 hover:bg-gray-50";
 
   const renderSetting = (title, description, enabled, onChange) => (
     <div className="flex items-center justify-between gap-4 py-4">
@@ -55,6 +58,10 @@ export default function Sidebar({
     .filter((location) => location.type === "department")
     .sort((a, b) => a.name.localeCompare(b.name));
 
+  const facilities = ["cafeteria", "sports-complex", "swimming-pool", "library", "medical-centre"]
+    .map((id) => campusLocations.find((location) => location.id === id))
+    .filter(Boolean);
+
   const quickAccess = ["library", "cafeteria", "administrative-block", "c-block", "medical-centre"];
 
   const renderLocationList = (locations) => (
@@ -87,8 +94,15 @@ export default function Sidebar({
           <nav className="space-y-1">
             <button
               type="button"
-              onClick={onHomeSelect}
-              className="flex w-full items-center gap-3 rounded-lg bg-blue-50 px-3 py-3 text-sm font-medium text-blue-600"
+              aria-current={activeTab === "map" ? "page" : undefined}
+              onClick={() => {
+                setActiveTab("map");
+                setExpandedSection(null);
+                onHomeSelect?.();
+              }}
+              className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition ${
+                activeTab === "map" ? activeTabClass : inactiveTabClass
+              }`}
             >
               <span className="text-lg">🗺️</span>
               Campus Map
@@ -96,11 +110,15 @@ export default function Sidebar({
 
             <button
               type="button"
+              aria-current={activeTab === "buildings" ? "page" : undefined}
               aria-expanded={expandedSection === "buildings"}
-              onClick={() =>
-                setExpandedSection(expandedSection === "buildings" ? null : "buildings")
-              }
-              className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm text-gray-600 transition hover:bg-gray-50"
+              onClick={() => {
+                setActiveTab("buildings");
+                setExpandedSection(expandedSection === "buildings" ? null : "buildings");
+              }}
+              className={`flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm transition ${
+                activeTab === "buildings" ? activeTabClass : inactiveTabClass
+              }`}
             >
               <span className="flex items-center gap-3">
                 <span className="text-lg">🏢</span>
@@ -112,11 +130,15 @@ export default function Sidebar({
 
             <button
               type="button"
+              aria-current={activeTab === "departments" ? "page" : undefined}
               aria-expanded={expandedSection === "departments"}
-              onClick={() =>
-                setExpandedSection(expandedSection === "departments" ? null : "departments")
-              }
-              className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm text-gray-600 transition hover:bg-gray-50"
+              onClick={() => {
+                setActiveTab("departments");
+                setExpandedSection(expandedSection === "departments" ? null : "departments");
+              }}
+              className={`flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm transition ${
+                activeTab === "departments" ? activeTabClass : inactiveTabClass
+              }`}
             >
               <span className="flex items-center gap-3">
                 <span className="text-lg">🏫</span>
@@ -128,8 +150,14 @@ export default function Sidebar({
 
             <button
               type="button"
-              onClick={onFacultySelect}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm text-gray-600 transition hover:bg-gray-50"
+              aria-current={activeTab === "faculty" ? "page" : undefined}
+              onClick={() => {
+                setActiveTab("faculty");
+                onFacultySelect?.();
+              }}
+              className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm transition ${
+                activeTab === "faculty" ? activeTabClass : inactiveTabClass
+              }`}
             >
               <span className="text-lg">👨‍🏫</span>
               Faculty
@@ -137,11 +165,23 @@ export default function Sidebar({
 
             <button
               type="button"
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm text-gray-600 transition hover:bg-gray-50"
+              aria-current={activeTab === "facilities" ? "page" : undefined}
+              aria-expanded={expandedSection === "facilities"}
+              onClick={() => {
+                setActiveTab("facilities");
+                setExpandedSection(expandedSection === "facilities" ? null : "facilities");
+              }}
+              className={`flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm transition ${
+                activeTab === "facilities" ? activeTabClass : inactiveTabClass
+              }`}
             >
-              <span className="text-lg">📍</span>
-              Facilities
+              <span className="flex items-center gap-3">
+                <span className="text-lg">📍</span>
+                Facilities
+              </span>
+              <span aria-hidden="true">{expandedSection === "facilities" ? "⌄" : "›"}</span>
             </button>
+            {expandedSection === "facilities" && renderLocationList(facilities)}
           </nav>
         </div>
 
