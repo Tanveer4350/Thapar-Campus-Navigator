@@ -1,15 +1,28 @@
 import { useState } from "react";
 import { campusLocations } from "../../data/locations";
+import { facultyMembers } from "../../data/faculty";
 
-export default function SearchBar({ onLocationSelect }) {
+export default function SearchBar({ onLocationSelect, onFacultySelect }) {
   const [query, setQuery] = useState("");
+  const normalizedQuery = query.trim().toLowerCase();
 
   const filteredLocations = campusLocations.filter((location) =>
-    location.name.toLowerCase().includes(query.toLowerCase())
+    location.name.toLowerCase().includes(normalizedQuery)
   );
+  const filteredFaculty = facultyMembers
+    .filter((member) =>
+      [member.name, member.designation, member.email, member.office, member.floor]
+        .some((value) => value.toLowerCase().includes(normalizedQuery))
+    )
+    .slice(0, 6);
 
   const handleSelect = (location) => {
     onLocationSelect(location);
+    setQuery("");
+  };
+
+  const handleFacultySelect = (faculty) => {
+    onFacultySelect(faculty);
     setQuery("");
   };
 
@@ -38,44 +51,75 @@ export default function SearchBar({ onLocationSelect }) {
       </div>
 
       {/* Results */}
-      {query && (
+      {normalizedQuery && (
         <div className="absolute top-14 left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50">
 
-          {filteredLocations.length > 0 ? (
+          {filteredLocations.length > 0 || filteredFaculty.length > 0 ? (
             <>
-              <div className="px-4 py-3 text-xs font-semibold text-gray-400 uppercase">
-                Results
-              </div>
-
-              {filteredLocations.map((location) => (
-
-                <button
-                  key={location.id}
-                  onClick={() => handleSelect(location)}
-                  className="w-full px-4 py-3 text-left hover:bg-gray-50 flex items-center gap-3 transition"
-                >
-
-                  <span className="text-xl">
-                    {location.type === "building"
-                      ? "🏢"
-                      : location.type === "department"
-                      ? "🏫"
-                      : "📍"}
-                  </span>
-
-                  <div>
-                    <p className="text-sm font-medium text-gray-800">
-                      {location.name}
-                    </p>
-
-                    <p className="text-xs text-gray-500">
-                      {location.category}
-                    </p>
+              {filteredFaculty.length > 0 && (
+                <>
+                  <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase">
+                    Faculty
                   </div>
+                  {filteredFaculty.map((faculty) => (
+                    <button
+                      key={`faculty-${faculty.id}`}
+                      type="button"
+                      onClick={() => handleFacultySelect(faculty)}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-blue-50"
+                    >
+                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100 text-sm font-bold text-blue-700">
+                        {faculty.name
+                          .split(" ")
+                          .filter((part) => !["Dr.", "Mr.", "Ms."].includes(part))
+                          .slice(0, 2)
+                          .map((part) => part[0])
+                          .join("")}
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-medium text-gray-800">
+                          {faculty.name}
+                        </span>
+                        <span className="block truncate text-xs text-gray-500">
+                          {faculty.designation} · Office {faculty.office}
+                        </span>
+                      </span>
+                    </button>
+                  ))}
+                </>
+              )}
 
-                </button>
-
-              ))}
+              {filteredLocations.length > 0 && (
+                <>
+                  <div className="border-t border-gray-100 px-4 py-2 text-xs font-semibold text-gray-400 uppercase">
+                    Campus locations
+                  </div>
+                  {filteredLocations.map((location) => (
+                    <button
+                      key={location.id}
+                      type="button"
+                      onClick={() => handleSelect(location)}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-gray-50"
+                    >
+                      <span className="text-xl">
+                        {location.type === "building"
+                          ? "🏢"
+                          : location.type === "department"
+                          ? "🏫"
+                          : "📍"}
+                      </span>
+                      <span>
+                        <span className="block text-sm font-medium text-gray-800">
+                          {location.name}
+                        </span>
+                        <span className="block text-xs text-gray-500">
+                          {location.category}
+                        </span>
+                      </span>
+                    </button>
+                  ))}
+                </>
+              )}
 
             </>
           ) : (

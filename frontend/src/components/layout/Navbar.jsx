@@ -1,6 +1,6 @@
 import SearchBar from "../search/SearchBar";
 
-export default function Navbar({ onLocationSelect }) {
+export default function Navbar({ onLocationSelect, onFacultySelect }) {
   return (
     <header className="h-16 w-full bg-white border-b border-gray-200 flex items-center px-5 z-50 relative">
 
@@ -27,6 +27,7 @@ export default function Navbar({ onLocationSelect }) {
       <div className="flex-1 flex justify-center">
         <SearchBar
           onLocationSelect={onLocationSelect}
+          onFacultySelect={onFacultySelect}
         />
       </div>
 
