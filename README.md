@@ -140,7 +140,11 @@ link :- https://app.diagrams.net/#G10qA4zRwyJPMOZRg2aPt_3gPo3ZTJ26w8#%7B%22pageI
 During Week 5, the **Activity Diagram** for Thapar Wayfinder was designed.
 link :- 
 
+**State Diagram**
+link :- https://app.diagrams.net/#G1x_paWkY-i8qTDaJkjOru7KkIQKmYV_Bx#%7B%22pageId%22%3A%22wayfinder-fixed%22%7D
 ---
+**Class Diagram**
+link :- https://app.diagrams.net/?utm_source=chatgpt.com#G1jTiG7qEEgAZfNLLZ7w_Fjh6euSbWCXkm#%7B%22pageId%22%3A%22wayfinder-class-clean%22%7D
 
 # 📊 Current Status
 
