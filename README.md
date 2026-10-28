@@ -146,6 +146,20 @@ link :- https://app.diagrams.net/#G1x_paWkY-i8qTDaJkjOru7KkIQKmYV_Bx#%7B%22pageI
 **Class Diagram**
 link :- https://app.diagrams.net/?utm_source=chatgpt.com#G1jTiG7qEEgAZfNLLZ7w_Fjh6euSbWCXkm#%7B%22pageId%22%3A%22wayfinder-class-clean%22%7D
 
+
+---
+
+## Week 7 — Sequence Diagram , Collaboration Diagram
+
+During Week 7, the **Sequence Diagram and Collaboration Diagram** for Thapar Wayfinder was designed.
+
+**Sequence Diagram**
+link :- https://app.diagrams.net/#G19LPhDQuG6sBgRbOt9cPTS3bO5GLB5h90#%7B%22pageId%22%3A%22wayfinder-sequence%22%7D
+
+**Collaboration Diagram**
+link :- https://app.diagrams.net/#G1EIcSsA5YKaRaUJaLz-SuIryFiIOkq-0j#%7B%22pageId%22%3A%22wayfinder-communication-clean%22%7D
+
+
 # 📊 Current Status
 
 | Component | Status |
